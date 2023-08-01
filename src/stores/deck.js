@@ -33,6 +33,8 @@ export const useDeckStore = defineStore('deck', () => {
   //Selected Name Deck
   function setSelectedName(nameKey){
     selectedName.value = nameKey
+    //To reset cards on deck change
+    resetCardsInSelectedDeck()
   }
 
   //Selected User Deck
@@ -81,6 +83,8 @@ export const useDeckStore = defineStore('deck', () => {
       console.error('Error fetching cards:', error)
     }
   }
+
+  
 
 
   return {

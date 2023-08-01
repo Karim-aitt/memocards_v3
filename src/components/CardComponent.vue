@@ -1,13 +1,11 @@
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
 import { useDeckStore } from '../stores/deck';
-import { storeToRefs } from 'pinia';
 
 // PINIA
 const cardStore = useDeckStore()
-const { answeredCards, getSelectedName } = storeToRefs(cardStore)
 const { setAnsweredCards, popAnsweredCards } = cardStore;
 
     const props = defineProps({
@@ -47,9 +45,10 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
 <template>
     <div
     class="border-2 p-2 my-2">
-        <p>{{props.cardWord}}</p>
+        <p >{{props.cardWord}}</p>
+        <p v-if="answeredFlag">{{ props.cardSolution }}</p>
         
-        <input v-model="userSolution"
+        <input v-if="!answeredFlag" v-model="userSolution"
         :placeholder="inputPlaceholder" 
         />
 

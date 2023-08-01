@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useDeckStore } from '../stores/deck';
 import { storeToRefs } from 'pinia';
 //Components
@@ -36,7 +36,7 @@ onMounted(() =>{
       
       <div class="mx-4" v-if="selectedDeck">
 
-        <CardComponent v-for="(card, index) in selectedDeck"
+        <CardComponent v-for="(card) in selectedDeck"
         :key="card.id"
         :card="card"
         :card-id="card.id"
@@ -53,7 +53,7 @@ onMounted(() =>{
           @click="resetCardsInSelectedDeck"
           > Reset all </button>
 
-        <CardComponent v-for="(card, index) in answeredCards"
+        <CardComponent v-for="(card) in answeredCards"
         :key="card.id"
         :card="card"
         :card-id="card.id"
