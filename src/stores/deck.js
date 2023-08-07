@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
+
 export const useDeckStore = defineStore('deck', () => {
     
   //All user decks
@@ -64,20 +65,31 @@ export const useDeckStore = defineStore('deck', () => {
     answeredCards.value = []
   }
 
+  //Delete Deck Selected
+
+  function setDeleteDeck(){
+    console.log(allUserDecks.value)
+    delete allUserDecks.value[selectedName.value]
+    console.log(allUserDecks.value)
+  }
+
+
   //FETCH Decks data
   async function setAllUserDecks() {
     try {
-      const response = await fetch('http://localhost:3000/decks') // Replace 'http://localhost:3000' with your actual endpoint
+      const response = await fetch('http://localhost:4001/api/decks') // Replace 'http://localhost:3000' with your actual endpoint
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
       const data = await response.json()
       
-      // console.log("3")
+      console.log(data, "data")
       //Saves the keys from user decks
       decksNames.value = Object.keys(data)
+      console.log(decksNames.value)
       //Saves entire user decks with their values
       allUserDecks.value = data
+      console.log(data)
 
     } catch (error) {
       console.error('Error fetching cards:', error)
@@ -108,7 +120,8 @@ export const useDeckStore = defineStore('deck', () => {
     setAnsweredCards,
     popAnsweredCards,
 
-    resetCardsInSelectedDeck
+    resetCardsInSelectedDeck,
+    setDeleteDeck
   }
 
   })

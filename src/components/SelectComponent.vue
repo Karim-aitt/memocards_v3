@@ -6,7 +6,8 @@ import { storeToRefs } from 'pinia';
 // PINIA
 const cardStore = useDeckStore()
 const { getSelectedName, getDecksNames } = storeToRefs(cardStore)
-const { setSelectedName, setSelectedDeck } = cardStore;
+const { setSelectedName, setSelectedDeck, setDeleteDeck } = cardStore;
+
 //--------------------------
 
 const selected = ref('')
@@ -22,13 +23,23 @@ function handleSelectChange(){
     // setSelectedDeck()
     // -------------------- To delay the render 500ms
     setTimeout(setSelectedDeck, 200)
-    
+
+}
+
+function handleDeleteDeck(){
+  if(getSelectedName){
+    setDeleteDeck()
+
+  } else {
+    console.log("No hay mazo seleccionado")
+  }
 }
 
 </script>
 
 <template>
     <div class="border-2 p-2 mt-2">
+      
 
         <select v-model="selected" @change="handleSelectChange">
       
@@ -52,7 +63,15 @@ function handleSelectChange(){
           <i v-else>
             No deck selected
           </i>
+          
         </div>
+
+        <div v-if="selected">
+          <button @click="handleDeleteDeck"
+          class="border-2 p-2"
+          >Delete Deck</button>
+        </div>
+        
     </div>
 </template>
 

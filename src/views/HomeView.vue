@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia';
 //Components
 import SelectComponent from '../components/SelectComponent.vue';
 import CardComponent from '../components/CardComponent.vue';
+import AddDeckComponent from '../components/AddDeckComponent.vue';
 
 // Pinia
 const cardStore = useDeckStore()
@@ -26,6 +27,8 @@ onMounted(() =>{
 <template>
   <main>
     <h1 class="text-red-500">Home view</h1>
+    <br>
+    <AddDeckComponent />
     <br>
 
     <!-- Deck select -->

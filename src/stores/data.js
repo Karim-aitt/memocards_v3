@@ -1,11 +1,15 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useDeckStore } from './deck'
+
 
 export const useDataStore = defineStore('data', () => {
 
-    const newDeck = ref({
-        deckName: ""
-    })
+  const deckStore = useDeckStore()
+
+    const newDeck = ref()
+
+    const allDecks = ref()
 
     const url = "http://localhost:3000/decks";
 
@@ -14,7 +18,7 @@ export const useDataStore = defineStore('data', () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newDeck),
+        body: JSON.stringify(allDecks.value),
       };
 
       async function postDeck() {
@@ -28,7 +32,23 @@ export const useDataStore = defineStore('data', () => {
         }
       }
 
+      function setNewDeck(newValue){
+        newDeck.value = {[newValue]: []}
+          setAllDecks()
+      }
+
+      function setAllDecks(){
+        deckStore.setAllUserDecks()
+        allDecks.value = {...deckStore.allUserDecks, ...newDeck.value}
+        console.log(allDecks.value)
+        // postDeck()
+      }
+
+      
+
+
     return {
         postDeck,
+        setNewDeck
     }
 })
