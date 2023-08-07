@@ -30,6 +30,7 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
         if(props.cardSolution.toLowerCase() === userSolution.value){
             toggleButton.value = false;
             setAnsweredCards(props.card)
+            
         }
     }
 

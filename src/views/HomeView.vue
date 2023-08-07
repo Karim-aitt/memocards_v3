@@ -28,7 +28,7 @@ onMounted(() =>{
   <main>
     <h1 class="text-red-500">Home view</h1>
     <br>
-    <AddDeckComponent />
+     <AddDeckComponent />
     <br>
 
     <!-- Deck select -->
@@ -40,9 +40,8 @@ onMounted(() =>{
       <div class="mx-4" v-if="selectedDeck">
 
         <CardComponent v-for="(card) in selectedDeck"
-        :key="card.id"
+        :key="card._id"
         :card="card"
-        :card-id="card.id"
         :card-word="card.text"
         :card-solution="card.solution"
         :deck-name="selectedName"
@@ -57,9 +56,8 @@ onMounted(() =>{
           > Reset all </button>
 
         <CardComponent v-for="(card) in answeredCards"
-        :key="card.id"
+        :key="card._id"
         :card="card"
-        :card-id="card.id"
         :card-word="card.text"
         :card-solution="card.solution"
         :deck-name="selectedName"

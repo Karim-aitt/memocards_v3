@@ -5,10 +5,10 @@ import { useDataStore } from '../stores/data';
 
     // PINIA
     const dataStore = useDataStore()
-    const { setNewDeck  } = dataStore;
+    const { setNewDeck, postDeck,  } = dataStore;
 
 
-    const deckName = ref("")
+    const deckName = ref()
 
     function handleSubmit(){
         setNewDeck(deckName.value)

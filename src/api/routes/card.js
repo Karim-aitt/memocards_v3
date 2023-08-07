@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-require('dotenv').config()
+require('dotenv').config();
 const cardSchema = require('../models/card');
 const deckSchema = require('../models/deck');
 
 router.post('/card/add', async (req, res) => {
-    const { deck, front, back, created_by } = req.body;
+    const { deck, text, solution, created_by } = req.body;
     //aqui obtener id del usuario
 
     const cardData = {
         deck: deck,
-        front: front,
-        back: back,
+        text: text,
+        solution: solution,
         created_by: created_by
     }
 
@@ -31,29 +31,31 @@ router.get('/cards', (req, res) => {
   cardSchema
       .find()
       .then((data) => res.json(data))
+      
       .catch((error) => res.json({message: error}))
 })
 
 //get all cards in Deck
-router.get('/deck/cards', (req, res) => {
-    const {deck} = req.body;
+router.get('/:deck/cards', (req, res) => {
+    const {deck} = req.params;
+    console.log(deck)
   cardSchema
-      .find(deck)
+      .find({deck: deck})
       .then((data) => res.json(data))
       .catch((error) => res.json({message: error}))
 })
 
 //update deck to add a card
-router.put('/deck/:id/add/card', (req, res) => {
-  const {id} = req.params;
-  const {front, back, created_by} = req.body;
-  deckSchema
-      .updateOne(
-          {_id: id}, 
-          {$set: {front, back, created_by}})
-      .then((data) => res.json(data))
-      .catch((error) => res.json({message: error}))
-})
+// router.put('/deck/:id/add/card', (req, res) => {
+//   const {id} = req.params;
+//   const {front, back, created_by} = req.body;
+//   deckSchema
+//       .updateOne(
+//           {_id: id}, 
+//           {$set: {front, back, created_by}})
+//       .then((data) => res.json(data))
+//       .catch((error) => res.json({message: error}))
+// })
 
 //delete card
 router.delete('cards/:id', (req, res) => {

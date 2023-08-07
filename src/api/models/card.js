@@ -6,11 +6,11 @@ const cardSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    front: {
+    text: {
         type: String,
         required: true
     },
-    back: {
+    solution: {
         type: String,
         required: true
     },

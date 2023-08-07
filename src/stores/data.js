@@ -8,47 +8,61 @@ export const useDataStore = defineStore('data', () => {
   const deckStore = useDeckStore()
 
     const newDeck = ref()
-
     const allDecks = ref()
 
-    const url = "http://localhost:3000/decks";
+    const url = "http://localhost:4001/api/deck/add";
 
-    const optionsFetch = {
+    let optionsFetch = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(allDecks.value),
+        body: newDeck.value,
       };
 
-      async function postDeck() {
-        try {
-            const response = await fetch(url, optionsFetch);
-            const data = await response.json();
-            console.log('Deck saved', data)
+    async function postDeck() {
+      console.log(optionsFetch)
+      try {
+          const response = await fetch(url, optionsFetch);
 
-        } catch (error) {
-            console.log(error('Error posting Deck', error))
-        }
+          const data = await response.json();
+          console.log('Deck saved', data)
+
+      } catch (error) {
+          console.log(error('Error posting Deck', error))
       }
-
-      function setNewDeck(newValue){
-        newDeck.value = {[newValue]: []}
-          setAllDecks()
-      }
-
-      function setAllDecks(){
-        deckStore.setAllUserDecks()
-        allDecks.value = {...deckStore.allUserDecks, ...newDeck.value}
-        console.log(allDecks.value)
-        // postDeck()
-      }
-
-      
-
-
-    return {
-        postDeck,
-        setNewDeck
     }
+
+    //SETEAR
+    function setNewDeck(newValue){
+      newDeck.value = {"name": newValue}
+
+      optionsFetch = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newDeck.value)
+      };
+
+      setAllDecks()
+      
+    }
+
+    function setAllDecks(){
+      postDeck()
+      // deckStore.allUserDecks = []
+      deckStore.setAllUserDecks()
+      deckStore.getDecksNames()
+      // allDecks.value = {...deckStore.allUserDecks, ...newDeck.value}
+      // console.log(allDecks.value)
+    }
+
+    
+
+
+  return {
+      postDeck,
+      setNewDeck
+  }
 })
