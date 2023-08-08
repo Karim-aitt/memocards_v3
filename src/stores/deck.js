@@ -90,10 +90,14 @@ export const useDeckStore = defineStore('deck', () => {
       
       console.log(data, "data")
       
+      if(decksNames.value.length > 0){
+        decksNames.value = []
+      }
+
       //Saves the names from user decks
       data.forEach(deck => {decksNames.value.push(deck.name)})
 
-      console.log(decksNames.value)
+      // console.log(decksNames.value)
       //Saves entire user decks with their values
       allUserDecks.value = data
 

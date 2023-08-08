@@ -7,62 +7,107 @@ export const useDataStore = defineStore('data', () => {
 
   const deckStore = useDeckStore()
 
-    const newDeck = ref()
-    const allDecks = ref()
+  const newDeck = ref()
 
-    const url = "http://localhost:4001/api/deck/add";
+  const url = "http://localhost:4001/api/deck/add";
 
-    let optionsFetch = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: newDeck.value,
-      };
+  let optionsFetchDeck = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: newDeck.value,
+    };
 
-    async function postDeck() {
-      console.log(optionsFetch)
-      try {
-          const response = await fetch(url, optionsFetch);
+  async function postDeck() {
+    console.log(optionsFetchDeck)
+    try {
+        const response = await fetch(url, optionsFetchDeck);
 
-          const data = await response.json();
-          console.log('Deck saved', data)
+        const data = await response.json();
+        console.log('Deck saved', data)
 
-      } catch (error) {
-          console.log(error('Error posting Deck', error))
-      }
+    } catch (error) {
+        console.log(error('Error posting Deck', error))
     }
+  }
 
-    //SETEAR
-    function setNewDeck(newValue){
-      newDeck.value = {"name": newValue}
+  //SETEAR
+  function setNewDeck(newValue){
+    newDeck.value = {"name": newValue}
 
-      optionsFetch = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newDeck.value)
-      };
+    optionsFetchDeck = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newDeck.value)
+    };
 
-      setAllDecks()
-      
-    }
-
-    function setAllDecks(){
-      postDeck()
-      // deckStore.allUserDecks = []
-      deckStore.setAllUserDecks()
-      deckStore.getDecksNames()
-      // allDecks.value = {...deckStore.allUserDecks, ...newDeck.value}
-      // console.log(allDecks.value)
-    }
-
+    setAllDecks()
     
+  }
+
+  async function setAllDecks() {
+    await postDeck();
+    deckStore.setAllUserDecks();
+  }
+
+// -------------------------------------------- Cards
+
+const newCard = ref()
+const urlCard = "http://localhost:4001/api/card/add"
+
+let optionsFetchCard = {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: newCard.value,
+};
+
+  
+
+async function postCard() {
+  console.log(optionsFetchCard)
+  try {
+      const response = await fetch(urlCard, optionsFetchCard);
+
+      const data = await response.json();
+      console.log('Card saved', data)
+
+  } catch (error) {
+      console.log(error('Error posting Card', error))
+  }
+}
+
+//SETEAR 
+function setNewCard(newValue){
+  newCard.value = newValue
+  console.log(newCard.value)
+
+  optionsFetchCard = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newCard.value)
+  };
+
+  setAllCards()
+  
+}
+
+async function setAllCards() {
+  await postCard();
+  deckStore.setAllUserDecks();
+}
 
 
   return {
       postDeck,
-      setNewDeck
+      setNewDeck,
+      setNewCard,
+      postCard,
   }
 })

@@ -6,14 +6,14 @@ const cardSchema = require('../models/card');
 const deckSchema = require('../models/deck');
 
 router.post('/card/add', async (req, res) => {
-    const { deck, text, solution, created_by } = req.body;
+    const { deck, text, solution } = req.body;
     //aqui obtener id del usuario
 
     const cardData = {
         deck: deck,
         text: text,
         solution: solution,
-        created_by: created_by
+        // created_by: created_by
     }
 
     try {

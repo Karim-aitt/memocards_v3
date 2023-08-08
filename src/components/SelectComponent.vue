@@ -5,15 +5,13 @@ import { storeToRefs } from 'pinia';
 
 // PINIA
 const cardStore = useDeckStore()
-const { getSelectedName, getDecksNames } = storeToRefs(cardStore)
+const { getSelectedName, decksNames } = storeToRefs(cardStore)
 const { setSelectedName, setSelectedDeck, setDeleteDeck } = cardStore;
 
 //--------------------------
 
 const selected = ref('')
 
-//This is what is rendered in select
-const options = ref(getDecksNames)
 
 //Function to set the user choosed deck
 function handleSelectChange(){
@@ -22,9 +20,9 @@ function handleSelectChange(){
     // -------------------- To render on select
     // setSelectedDeck()
     // -------------------- To delay the render 500ms
-    setTimeout(setSelectedDeck, 200)
-
+    setTimeout(setSelectedDeck, 2200)
 }
+
 
 function handleDeleteDeck(){
   if(getSelectedName){
@@ -45,7 +43,7 @@ function handleDeleteDeck(){
       
           
           <option disabled value="">Please select one</option>
-          <option v-for="option in options" 
+          <option v-for="option in decksNames" 
               :key="option"
               :value="option"
               >

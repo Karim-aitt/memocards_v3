@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia';
 import SelectComponent from '../components/SelectComponent.vue';
 import CardComponent from '../components/CardComponent.vue';
 import AddDeckComponent from '../components/AddDeckComponent.vue';
+import AddCardComponent from '../components/AddCardComponent.vue';
 
 // Pinia
 const cardStore = useDeckStore()
@@ -32,7 +33,10 @@ onMounted(() =>{
     <br>
 
     <!-- Deck select -->
-    <SelectComponent />
+    <div class="flex gap-3">
+      <SelectComponent />
+      <AddCardComponent />
+      </div>
 
     <!-- Cards render -->
     <div class="flex">

@@ -27,7 +27,7 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
     const inputPlaceholder = ref("Answer")
 
     function handleCheck(){
-        if(props.cardSolution.toLowerCase() === userSolution.value){
+        if(props.cardSolution.toLowerCase() === userSolution.value.toLowerCase()){
             toggleButton.value = false;
             setAnsweredCards(props.card)
             
