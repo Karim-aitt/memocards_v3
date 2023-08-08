@@ -72,10 +72,22 @@ export const useDeckStore = defineStore('deck', () => {
 
   //Delete Deck Selected
 
-  function setDeleteDeck(){
-    console.log(allUserDecks.value)
-    delete allUserDecks.value[selectedName.value]
-    console.log(allUserDecks.value)
+  async function setDeleteDeck(id) {
+
+    const urlDelete = `http://localhost:4001/api/decks/${id}`
+  
+    try {
+        const response = await fetch(urlDelete, {method:"DELETE"});
+        if(!response.ok){
+          throw new Error("Error al borrar mazo, deck.js")
+        }
+        const data = await response.json();
+        console.log('Deck delete', data)
+        
+        setAllUserDecks()
+    } catch (error) {
+        console.log(error('Error deleting Deck', error))
+    }
   }
 
 
@@ -151,7 +163,8 @@ export const useDeckStore = defineStore('deck', () => {
     popAnsweredCards,
 
     resetCardsInSelectedDeck,
-    setDeleteDeck
+    setDeleteDeck,
+    getCardsInDeck
   }
 
   })

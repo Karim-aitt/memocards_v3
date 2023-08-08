@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useDeckStore } from '../stores/deck';
 import { storeToRefs } from 'pinia';
 //Components
@@ -13,8 +13,6 @@ const cardStore = useDeckStore()
 const { selectedDeck, answeredCards, selectedName   } = storeToRefs(cardStore)
 const { setAllUserDecks, resetCardsInSelectedDeck  } = cardStore;
 // ---------------
-//console.log(1)
-
 
 
 onMounted(() =>{
@@ -45,6 +43,7 @@ onMounted(() =>{
 
         <CardComponent v-for="(card) in selectedDeck"
         :key="card._id"
+        :card-id="card._id"
         :card="card"
         :card-word="card.text"
         :card-solution="card.solution"

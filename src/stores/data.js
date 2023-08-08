@@ -53,7 +53,7 @@ export const useDataStore = defineStore('data', () => {
     deckStore.setAllUserDecks();
   }
 
-// -------------------------------------------- Cards
+// -------------------------------------------- Add Cards
 
 const newCard = ref()
 const urlCard = "http://localhost:4001/api/card/add"
@@ -100,7 +100,26 @@ function setNewCard(newValue){
 
 async function setAllCards() {
   await postCard();
-  deckStore.setAllUserDecks();
+  deckStore.getCardsInDeck();
+}
+
+
+// ------------------------ delete Card
+
+async function deleteCard(id) {
+
+  const urlDelete = `http://localhost:4001/api/cards/${id}`
+
+  try {
+      const response = await fetch(urlDelete, {method:"DELETE"});
+
+      const data = await response.json();
+      console.log('Card delete', data)
+
+      deckStore.getCardsInDeck();
+  } catch (error) {
+      console.log(error('Error deleting Card', error))
+  }
 }
 
 
@@ -109,5 +128,6 @@ async function setAllCards() {
       setNewDeck,
       setNewCard,
       postCard,
+      deleteCard
   }
 })

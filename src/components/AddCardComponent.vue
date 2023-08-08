@@ -22,6 +22,7 @@ import { storeToRefs } from 'pinia';
     })
 
     watch(selectedName, () => {
+        //To set newCard deck key when selectedName changes
         newCard.value.deck = selectedName.value
     })
 
@@ -32,6 +33,7 @@ import { storeToRefs } from 'pinia';
             setNewCard(newCard.value)
             //reset form
             newCard.value = {
+            deck: selectedName.value,
             text: "",
             solution: ""
             }

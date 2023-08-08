@@ -38,11 +38,20 @@ router.get('/cards', (req, res) => {
 //get all cards in Deck
 router.get('/:deck/cards', (req, res) => {
     const {deck} = req.params;
-    console.log(deck)
+    console.log(deck, "deck")
   cardSchema
       .find({deck: deck})
       .then((data) => res.json(data))
       .catch((error) => res.json({message: error}))
+})
+
+router.delete('/cards/:id', (req, res) => {
+  const {id} = req.params;
+  console.log("delete, endpoint")
+  cardSchema
+        .deleteOne({_id: id})
+        .then((data) => res.json(data))
+        .catch((error) => res.json({message: error}))
 })
 
 //update deck to add a card
@@ -58,12 +67,5 @@ router.get('/:deck/cards', (req, res) => {
 // })
 
 //delete card
-router.delete('cards/:id', (req, res) => {
-  const {id} = req.params;
-  cardSchema
-        .deleteOne({_id: id})
-        .then((data) => res.json(data))
-        .catch((error) => res.json({message: error}))
-})
 
 module.exports = router;

@@ -1,12 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue';
 import { useDeckStore } from '../stores/deck';
 import { storeToRefs } from 'pinia';
+import DeleteDeckComponent from './DeleteDeckComponent.vue';
 
 // PINIA
 const cardStore = useDeckStore()
-const { getSelectedName, decksNames } = storeToRefs(cardStore)
-const { setSelectedName, setSelectedDeck, setDeleteDeck } = cardStore;
+const { getSelectedName, decksNames, allUserDecks } = storeToRefs(cardStore)
+const { setSelectedName } = cardStore;
 
 //--------------------------
 
@@ -15,23 +16,17 @@ const selected = ref('')
 
 //Function to set the user choosed deck
 function handleSelectChange(){
+  // -------------------- To render on select
     setSelectedName(selected.value)
 
-    // -------------------- To render on select
-    // setSelectedDeck()
     // -------------------- To delay the render 500ms
-    setTimeout(setSelectedDeck, 2200)
+    // setTimeout(setSelectedDeck, 2200)
 }
 
+watch(allUserDecks, () => {
+  selected.value = ""
+})
 
-function handleDeleteDeck(){
-  if(getSelectedName){
-    setDeleteDeck()
-
-  } else {
-    console.log("No hay mazo seleccionado")
-  }
-}
 
 </script>
 
@@ -65,9 +60,7 @@ function handleDeleteDeck(){
         </div>
 
         <div v-if="selected">
-          <button @click="handleDeleteDeck"
-          class="border-2 p-2"
-          >Delete Deck</button>
+          <DeleteDeckComponent />
         </div>
         
     </div>

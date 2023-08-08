@@ -3,6 +3,7 @@
 import { ref } from 'vue';
 
 import { useDeckStore } from '../stores/deck';
+import DeleteCardComponent from './DeleteCardComponent.vue';
 
 // PINIA
 const cardStore = useDeckStore()
@@ -18,7 +19,7 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
         "deckName": String,
         
     })
-
+    console.log(props.cardId, "card id")
     const toggleButton = ref()
 
     props.answeredFlag ? toggleButton.value = false : toggleButton.value = true
@@ -53,11 +54,16 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
         :placeholder="inputPlaceholder" 
         />
 
-        <div v-if="toggleButton">
-            <button @click="handleCheck"> Check </button>    
-        </div>
-        <div v-else>
-            <button @click="handleReset"> Reset </button>
+        <div class="flex justify-between">
+            <div v-if="toggleButton">
+                <button @click="handleCheck"> Check </button>    
+            </div>
+            <div v-else>
+                <button @click="handleReset"> Reset </button>
+            </div>
+            <div>
+                <DeleteCardComponent :card-id="props.cardId"/>
+            </div>
         </div>
     </div>
 
