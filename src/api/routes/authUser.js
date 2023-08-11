@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 
-router.get('/auth-verification', (req, res) => {
+router.get('/auth', (req, res) => {
 
     //Conseguimos el token del header de la req
     const token = req.header('auth-token');
@@ -10,9 +10,11 @@ router.get('/auth-verification', (req, res) => {
     if (!token) return res.status(401).json({ error: 'Acceso denegado' })
 
     try {
+        
         const verified = jwt.verify(token, process.env.JWT_SECRET)
+        
         if(verified){
-            console.log("Verificado con exito")
+            
             res.json(true)
         }
         

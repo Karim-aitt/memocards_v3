@@ -3,11 +3,14 @@ const userSchema = require('../models/user');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 require('dotenv').config()
 
 //register user
 router.post('/user/register', async (req, res) => {
     const { name, email, password } = req.body;
+
+    console.log(name,email,password)
     
     try {
         // Comprobar si ya existe un usuario con el email introducido
@@ -16,12 +19,17 @@ router.post('/user/register', async (req, res) => {
         if (userExist||nameExist) {
           return res.status(400).json({ message: 'El email ya está registrado' });
         }
-  
+        
+        //TODO: HACER VALIDACIONES del usuario
+
+
         // Si el email no está registrado, crear un nuevo usuario
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new userSchema({ name, email, password: hashedPassword });
         
         await newUser.save();
+
+        console.log(newUser, "newUser")
 
         const payload = {
           id: newUser._id,
@@ -32,7 +40,7 @@ router.post('/user/register', async (req, res) => {
         // Si el usuario y la contraseña son correctos, generar un token de acceso
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-        res.status(201).header('auth-token', token).json({ id: newUser._id, name: newUser.name, email: newUser.email, token });
+        res.status(200).header('auth-token', token).json({ id: newUser._id, name: newUser.name, email: newUser.email, token });
 
 
       } catch (err) {
@@ -53,6 +61,7 @@ router.post('/user/login', async (req, res) => {
       if (!user) {
           return res.status(401).json({ message: 'Credenciales incorrectas' });
         } 
+
       const isMatch = await bcrypt.compare(password, user.password);  
       if (!isMatch) {
           return res.status(401).json({ message: 'Credenciales incorrectas' });

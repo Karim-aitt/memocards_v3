@@ -20,10 +20,10 @@ const corsOptions ={
 }
 app.use(cors(corsOptions));
 
-const port = process.env.PORT;
+const port = process.env.VITE_PORT;
 
 //conexion to db
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.VITE_MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

@@ -1,25 +1,25 @@
 
 <script setup>
-import { ref } from 'vue';
+import { capitalize, ref } from 'vue';
 
 import { useDeckStore } from '../stores/deck';
 import DeleteCardComponent from './DeleteCardComponent.vue';
 
 // PINIA
 const cardStore = useDeckStore()
-const { setAnsweredCards, popAnsweredCards } = cardStore;
+const { setAnsweredCards, popAnsweredCards, deleteAnsweredCard } = cardStore;
 
     const props = defineProps({
         // props definition here...
         "card": Object,
-        "cardId": Number,
+        "cardId": String,
         "cardWord": String || Number,
         "cardSolution": String || Number,
         "answeredFlag": Boolean,
         "deckName": String,
         
     })
-    console.log(props.cardId, "card id")
+    
     const toggleButton = ref()
 
     props.answeredFlag ? toggleButton.value = false : toggleButton.value = true
@@ -39,6 +39,9 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
         toggleButton.value = true;
         popAnsweredCards(props.card)
     }
+    function handleDeleteAnswered(){
+        deleteAnsweredCard(props.card)
+    }
 
     
 
@@ -47,7 +50,7 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
 <template>
     <div
     class="border-2 p-2 my-2">
-        <p >{{props.cardWord}}</p>
+        <p >{{capitalize(props.cardWord)}}</p>
         <p v-if="answeredFlag">{{ props.cardSolution }}</p>
         
         <input v-if="!answeredFlag" v-model="userSolution"
@@ -62,7 +65,7 @@ const { setAnsweredCards, popAnsweredCards } = cardStore;
                 <button @click="handleReset"> Reset </button>
             </div>
             <div>
-                <DeleteCardComponent :card-id="props.cardId"/>
+                <DeleteCardComponent :card-id="props.cardId" :delete="handleDeleteAnswered"/>
             </div>
         </div>
     </div>

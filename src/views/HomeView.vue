@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useDeckStore } from '../stores/deck';
 import { storeToRefs } from 'pinia';
 //Components
@@ -61,6 +61,7 @@ onMounted(() =>{
         <CardComponent v-for="(card) in answeredCards"
         :key="card._id"
         :card="card"
+        :card-id="card._id"
         :card-word="card.text"
         :card-solution="card.solution"
         :deck-name="selectedName"
@@ -71,3 +72,9 @@ onMounted(() =>{
     </div>
   </main>
 </template>
+
+<style>
+body{
+  background-color: #4c4c4c;
+}
+</style>

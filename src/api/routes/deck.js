@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 require('dotenv').config()
+
 const deckSchema = require('../models/deck');
 const cardSchema = require('../models/card');
 
 router.post('/deck/add', async (req, res) => {
-    const { name } = req.body;
+    const { name, created_by } = req.body;
     //aqui obtener id del usuario
    
     const deckData = {
-        name: name
-        // created_by: created_by
+        name: name,
+        created_by: created_by
     }
 
     try {
@@ -23,6 +24,16 @@ router.post('/deck/add', async (req, res) => {
       }
 
   });
+
+//get all userDecks
+router.get('/:userid/decks', (req, res) => {
+  const {userid} = req.params
+
+  deckSchema
+      .find({ created_by: userid })
+      .then((data) => res.json(data))
+      .catch((error) => res.json({message: error}))
+})
 
 //get all decks
 router.get('/decks', (req, res) => {

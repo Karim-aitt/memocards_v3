@@ -1,9 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-
+import { useUserStore } from './user'
 
 export const useDeckStore = defineStore('deck', () => {
     
+  const userStore = useUserStore()
+  const userId = ref(userStore.getUserId)
+
   //All user decks
   const allUserDecks = ref()
   //Deck selected by User
@@ -65,12 +68,16 @@ export const useDeckStore = defineStore('deck', () => {
     answeredCards.value = answeredCards.value.filter(x => x !== card )
   }
 
+  function deleteAnsweredCard(card){
+    answeredCards.value = answeredCards.value.filter(x => x !== card )
+  }
+
   function resetCardsInSelectedDeck(){
     getCardsInDeck()
     answeredCards.value = []
   }
 
-  //Delete Deck Selected
+  //Delete Deck Selected and his cards
 
   async function setDeleteDeck(id) {
 
@@ -82,8 +89,9 @@ export const useDeckStore = defineStore('deck', () => {
           throw new Error("Error al borrar mazo, deck.js")
         }
         const data = await response.json();
-        console.log('Deck delete', data)
+        // console.log('Deck delete', data)
         
+        selectedDeck.value = []
         setAllUserDecks()
     } catch (error) {
         console.log(error('Error deleting Deck', error))
@@ -94,13 +102,14 @@ export const useDeckStore = defineStore('deck', () => {
   //FETCH Decks data
   async function setAllUserDecks() {
     try {
-      const response = await fetch('http://localhost:4001/api/decks') // Replace 'http://localhost:3000' with your actual endpoint
+      
+      const response = await fetch(`http://localhost:4001/api/${userId.value}/decks`) // Replace 'http://localhost:3000' with your actual endpoint
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
       const data = await response.json()
       
-      console.log(data, "data")
+      // console.log(data, "data")
       
       if(decksNames.value.length > 0){
         decksNames.value = []
@@ -129,7 +138,7 @@ export const useDeckStore = defineStore('deck', () => {
       }
       const data = await response.json()
 
-      console.log(data)
+      // console.log(data)
       selectedDeck.value = data;
       
     }
@@ -161,10 +170,12 @@ export const useDeckStore = defineStore('deck', () => {
     answeredCards,
     setAnsweredCards,
     popAnsweredCards,
+    deleteAnsweredCard,
 
     resetCardsInSelectedDeck,
     setDeleteDeck,
-    getCardsInDeck
+    getCardsInDeck,
+    
   }
 
   })

@@ -1,11 +1,15 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useDeckStore } from './deck'
+import { useUserStore } from './user'
 
 
 export const useDataStore = defineStore('data', () => {
 
   const deckStore = useDeckStore()
+  const userStore = useUserStore()
+  const userId = ref(userStore.getUserId)
+
 
   const newDeck = ref()
 
@@ -20,12 +24,12 @@ export const useDataStore = defineStore('data', () => {
     };
 
   async function postDeck() {
-    console.log(optionsFetchDeck)
+    
     try {
         const response = await fetch(url, optionsFetchDeck);
 
         const data = await response.json();
-        console.log('Deck saved', data)
+        
 
     } catch (error) {
         console.log(error('Error posting Deck', error))
@@ -34,7 +38,7 @@ export const useDataStore = defineStore('data', () => {
 
   //SETEAR
   function setNewDeck(newValue){
-    newDeck.value = {"name": newValue}
+    newDeck.value = {"name": newValue, "created_by": userId.value }
 
     optionsFetchDeck = {
       method: "POST",
@@ -69,12 +73,12 @@ let optionsFetchCard = {
   
 
 async function postCard() {
-  console.log(optionsFetchCard)
+  
   try {
       const response = await fetch(urlCard, optionsFetchCard);
 
       const data = await response.json();
-      console.log('Card saved', data)
+      
 
   } catch (error) {
       console.log(error('Error posting Card', error))
@@ -84,7 +88,7 @@ async function postCard() {
 //SETEAR 
 function setNewCard(newValue){
   newCard.value = newValue
-  console.log(newCard.value)
+  
 
   optionsFetchCard = {
     method: "POST",
@@ -114,7 +118,7 @@ async function deleteCard(id) {
       const response = await fetch(urlDelete, {method:"DELETE"});
 
       const data = await response.json();
-      console.log('Card delete', data)
+      
 
       deckStore.getCardsInDeck();
   } catch (error) {

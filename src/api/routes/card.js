@@ -38,7 +38,7 @@ router.get('/cards', (req, res) => {
 //get all cards in Deck
 router.get('/:deck/cards', (req, res) => {
     const {deck} = req.params;
-    console.log(deck, "deck")
+    console.log(deck, "deck get all cards")
   cardSchema
       .find({deck: deck})
       .then((data) => res.json(data))
@@ -50,7 +50,10 @@ router.delete('/cards/:id', (req, res) => {
   console.log("delete, endpoint")
   cardSchema
         .deleteOne({_id: id})
-        .then((data) => res.json(data))
+        .then((data) => {
+          console.log("Se ha borrado una carta")
+          res.json(data)
+        })
         .catch((error) => res.json({message: error}))
 })
 

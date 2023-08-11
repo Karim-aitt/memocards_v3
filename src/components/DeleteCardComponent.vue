@@ -1,5 +1,5 @@
 <script setup>
-    import { useDataStore } from '../stores/data';
+import { useDataStore } from '../stores/data';
 
     // PINIA
     const dataStore = useDataStore()
@@ -7,13 +7,15 @@
 
     const props = defineProps({
         // props definition here...
-        "cardId": Number
+        "cardId": String,
+        "delete": Function
         
     })
 
 
     function handleDelete(){
         deleteCard(props.cardId)
+        props.delete()
     }
 
 </script>
