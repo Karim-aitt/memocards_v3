@@ -1,68 +1,58 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { useDeckStore } from '../stores/deck';
-import { storeToRefs } from 'pinia';
-import DeleteDeckComponent from './DeleteDeckComponent.vue';
+import { ref, watch, capitalize } from 'vue'
+import { useDeckStore } from '../stores/deck'
+import { storeToRefs } from 'pinia'
 
 // PINIA
 const cardStore = useDeckStore()
-const { getSelectedName, decksNames, allUserDecks } = storeToRefs(cardStore)
-const { setSelectedName } = cardStore;
+const { decksNames, allUserDecks } = storeToRefs(cardStore)
+const { setSelectedName } = cardStore
 
 //--------------------------
 
 const selected = ref('')
 
-
 //Function to set the user choosed deck
-function handleSelectChange(){
+function handleSelectChange() {
   // -------------------- To render on select
-    setSelectedName(selected.value)
+  setSelectedName(selected.value)
 
-    // -------------------- To delay the render 500ms
-    // setTimeout(setSelectedDeck, 2200)
+  // -------------------- To delay the render 500ms
+  // setTimeout(setSelectedDeck, 2200)
 }
 
 watch(allUserDecks, () => {
-  selected.value = ""
+  selected.value = ''
 })
-
-
 </script>
 
 <template>
-    <div class="border-2 p-2 mt-2">
-      
+  <div class="contentBox">
+    <select v-model="selected" @change="handleSelectChange">
+      <option disabled value="">Please select one</option>
+      <option v-for="option in decksNames" :key="option" :value="option">
+        {{ option }}
+      </option>
+    </select>
 
-        <select v-model="selected" @change="handleSelectChange">
-      
-          
-          <option disabled value="">Please select one</option>
-          <option v-for="option in decksNames" 
-              :key="option"
-              :value="option"
-              >
-            {{ option }}
-          </option>
-      
-        </select>
-      
-        <div>Selected: 
-          
-          <i v-if="selected">
-            {{ getSelectedName }}
-          </i>
-
-          <i v-else>
-            No deck selected
-          </i>
-          
-        </div>
-
-        <div v-if="selected">
-          <DeleteDeckComponent />
-        </div>
-        
-    </div>
+    
+  </div>
 </template>
 
+<style scoped>
+.contentBox {
+  display: flex;
+}
+h1 {
+  margin-left: 10px;
+  font-size: larger;
+}
+
+select{
+  color: var(--sec-color);
+  padding: 6px;
+  border-radius: 10px;
+  margin-right: 1rem;
+}
+
+</style>

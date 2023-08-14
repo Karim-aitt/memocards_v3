@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginRegisterView from '../views/LoginRegisterView.vue'
+import RegisterView from '../views/RegisterView.vue'
 import { userVerification } from '../api/utils/auth'
 
 
@@ -16,15 +16,15 @@ const router = createRouter({
     {
       path: '/signup',
       name: 'signup',
-      component: LoginRegisterView
+      component: RegisterView
     },
     {
-      path: '/cards',
-      name: 'cards',
+      path: '/signin',
+      name: 'signin',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/CardsView.vue')
+      component: () => import('../views/LoginView.vue')
     }
   ]
 
@@ -36,8 +36,8 @@ router.beforeEach(async (to, from, next) => {
   
 
   if (!token) {
-    if (to.name !== 'signup') {
-      next("/signup");
+    if (to.name !== 'signup' && to.name !== 'signin') {
+      next("/signin");
     } else {
       next();
     }
@@ -53,11 +53,11 @@ router.beforeEach(async (to, from, next) => {
         }
       } else {
         localStorage.removeItem("token")
-        next("/signup");
+        next("/signin");
       }
     } catch (error) {
       console.log(error, "error verification index.js");
-      next("/signup");
+      next("/signin");
     }
   }
 });

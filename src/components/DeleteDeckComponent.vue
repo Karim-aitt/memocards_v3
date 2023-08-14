@@ -17,5 +17,13 @@
 
 <template>
 
-    <button @click="handleDelete"> Delete </button>
+    <button @click="handleDelete"><i class="fa-solid fa-trash-can"></i> </button>
 </template>
+
+<style>
+
+i{
+    font-size: x-large;
+}
+
+</style>

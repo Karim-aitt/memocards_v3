@@ -76,7 +76,7 @@ async function handleSubmit(e) {
   </p> -->
 
 
-  <form class="flex flex-col border-2 gap-2 p-5 w-1/3">
+  <form @submit="handleSubmit">
     <label for="username">Username</label>
     <input
       type="text"
@@ -117,6 +117,42 @@ async function handleSubmit(e) {
       required
     />
 
-    <button @click="handleSubmit" type="submit">Submit</button>
+    <button type="submit">Submit</button>
   </form>
 </template>
+
+<style scoped>
+
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+  text-align: left;
+}
+
+label{
+  color: var(--text-primary)
+}
+
+input{
+  padding: 8px;
+  border-radius: 10px;
+}
+input:focus{
+  outline: none;
+  border: 3px solid var(--main-color);
+}
+button{
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 8px;
+  font-weight: bold;
+  background-color: var(--other-color);
+  color: var(--text-primary);
+}
+button:hover{
+  background-color: var(--main-color);
+}
+
+</style>

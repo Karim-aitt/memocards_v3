@@ -22,5 +22,5 @@ import { useDataStore } from '../stores/data';
 
 <template>
 
-    <button @click="handleDelete"> Delete </button>
+    <button @click="handleDelete"> <i class="fa-solid fa-trash-can"></i> </button>
 </template>

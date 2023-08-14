@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
 
-    const userValidation = ref(localStorage.getItem('token'))
+    const userToken = ref(localStorage.getItem('token'))
     const userName = ref()
 
     //Used to fetch user decks
@@ -11,6 +11,7 @@ export const useUserStore = defineStore('user', () => {
 
     //getters
     const getUserId = computed(() => userId.value)
+    const getUserToken = computed(() => userToken.value)
 
     //setters
     function setUserId(id){
@@ -22,11 +23,12 @@ export const useUserStore = defineStore('user', () => {
     }
 
     return {
-        userValidation,
+        userToken,
         userId,
         getUserId,
 
         setUserName,
-        setUserId
+        setUserId,
+        getUserToken
     }
 })

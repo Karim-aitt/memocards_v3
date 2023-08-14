@@ -3,3 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+    --main-color:#91C8E4!important ;
+    --sec-color: #4682A9;
+    --accent-color: #91C8E4;
+    --other-color: #749BC2;
+    --text-primary: #e5e5e5;
+    --text-secondary: #2c2c2c;
+}
+/* main: 91C8E4 */
+/* sec: 4682A9 */
+/* accent: 91C8E4 */
+/* other: 749BC2 */

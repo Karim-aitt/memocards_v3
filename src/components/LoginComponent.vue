@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import router from '../router';
+import router from '../router'
 
-import {useUserStore} from '../stores/user'
+import { useUserStore } from '../stores/user'
 const userStore = useUserStore()
 const { setUserId, setUserName } = userStore
 
@@ -10,7 +10,7 @@ const email = ref()
 const password = ref()
 
 async function handleSubmit(e) {
-  e.preventDefault();
+  e.preventDefault()
 
   const optionsFetch = {
     method: 'POST',
@@ -20,41 +20,85 @@ async function handleSubmit(e) {
     body: JSON.stringify({ email: email.value, password: password.value })
   }
 
-  
   try {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, optionsFetch)
     if (!response.ok) {
       throw new Error('Error al loguear, LoginComponent')
     }
     const data = await response.json()
-    
+
     //id set in storage
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("id", data.user._id)
+    localStorage.setItem('token', data.token)
+    localStorage.setItem('id', data.user._id)
 
     //Id set in pinia store
     setUserName(data.user.name)
     setUserId(data.user._id)
 
     //Redirect a home
-    router.push("/")
-    
-    
+    router.push('/')
   } catch (error) {
     console.log('Error Login', error)
   }
-
-
-
 }
-
-
 </script>
 
 <template>
-    <form class="flex flex-col border-2 gap-2 p-5 w-1/3">
-        <input v-model="email" type="email" placeholder="email" autocomplete="on">
-        <input v-model="password" type="password" placeholder="password" autocomplete="on">
-        <button @click="handleSubmit" >Login</button>
-    </form>
+  <form @submit="handleSubmit">
+    <label for="email">Email:</label>
+    <input
+      v-model="email"
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+      autocomplete="email"
+      required
+    />
+
+    <label for="password">Password:</label>
+    <input
+      v-model="password"
+      type="password"
+      id="password"
+      placeholder="Enter your password"
+      autocomplete="current-password"
+      required
+    />
+
+    <button type="submit" class="button">Login</button>
+  </form>
 </template>
+
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+  text-align: left;
+}
+
+label {
+  color: var(--text-primary);
+}
+
+input {
+  padding: 8px;
+  border-radius: 10px;
+}
+input:focus {
+  outline: none;
+  border: 3px solid var(--main-color);
+}
+button {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 8px;
+  font-weight: bold;
+  background-color: var(--other-color);
+  color: var(--text-primary);
+}
+button:hover {
+  background-color: var(--main-color);
+}
+</style>
