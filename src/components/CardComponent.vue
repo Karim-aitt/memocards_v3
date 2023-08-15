@@ -19,6 +19,12 @@ const props = defineProps({
 })
 
 const toggleButton = ref()
+const solutionFlag = ref(false)
+const solutionClassFlag = ref('')
+
+function toggleSolution(){
+  solutionFlag.value = !solutionFlag.value
+}
 
 props.answeredFlag ? (toggleButton.value = false) : (toggleButton.value = true)
 
@@ -28,7 +34,12 @@ const inputPlaceholder = ref('Answer')
 function handleCheck() {
   if (props.cardSolution.toLowerCase() === userSolution.value.toLowerCase()) {
     toggleButton.value = false
-    setAnsweredCards(props.card)
+    solutionClassFlag.value = 'ok';
+    setTimeout(() => {
+      setAnsweredCards(props.card)
+    }, 2000)
+  } else {
+    solutionClassFlag.value = 'wrong';
   }
 }
 
@@ -42,15 +53,17 @@ function handleDeleteAnswered() {
 </script>
 
 <template>
-  <div class="contentBox">
+  <div class="contentBox" :class="solutionClassFlag">
     <p class="word">{{ capitalize(props.cardWord) }}</p>
     <p v-if="answeredFlag">{{ props.cardSolution }}</p>
+    <p v-if="solutionFlag" class="solutionText">{{ props.cardSolution }}</p>
 
     <input v-if="!answeredFlag" v-model="userSolution" :placeholder="inputPlaceholder" />
 
     <div class="contentBoxButtons">
       <div v-if="toggleButton">
         <button class="button" @click="handleCheck">Check</button>
+        <button class="buttonSolution" @click="toggleSolution">Solution</button>
       </div>
       <div v-else>
         <button class="button" @click="handleReset">Reset</button>
@@ -67,6 +80,12 @@ function handleDeleteAnswered() {
   padding: 2rem;
   border-radius: 1rem;
   background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+  word-wrap: break-word;
+  margin: 20px 20px;
+  box-shadow: 3px 3px 2px 2px var(--text-secondary);
 
 }
 
@@ -94,7 +113,7 @@ input:focus {
 }
 
 .button {
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 8px;
   font-weight: bold;
   background-color: var(--sec-color);
@@ -108,5 +127,29 @@ input:focus {
     color: rgb(199, 3, 3);
 }
 
+.buttonSolution{
+  border-radius: 5px;
+  padding: 8px;
+  font-weight: bold;
+  margin-left: 1rem;
+  color: var(--text-terciary);
+}
+.buttonSolution:hover{
+  background: var(--other-color);
+  color: var(--text-primary);
+}
+
+.solutionText{
+  color: rgb(34 197 94);
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.ok{
+  border: 4px solid rgb(34 197 94);
+}
+.wrong{
+  border: 4px solid rgb(173, 69, 69);
+}
 
 </style>

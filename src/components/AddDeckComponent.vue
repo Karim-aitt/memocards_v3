@@ -29,6 +29,7 @@ function handleSubmit() {
                 type="text"
                 id="deckName"
                 placeholder="Enter deck name"
+                maxlength="15"
                 required
                 class="input"
               />

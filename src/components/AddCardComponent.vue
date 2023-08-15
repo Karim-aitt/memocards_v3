@@ -61,6 +61,7 @@ import { storeToRefs } from 'pinia';
             type="text"
             id="cardText"
             placeholder="Enter card text"
+            maxlength="30"
             required
             class="input"
         />
@@ -70,6 +71,7 @@ import { storeToRefs } from 'pinia';
             v-model.trim="newCard.solution"
             type="text"
             id="cardSolution"
+            maxlength="30"
             placeholder="Enter card solution"
             required
             class="input"
