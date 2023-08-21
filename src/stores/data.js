@@ -13,7 +13,7 @@ export const useDataStore = defineStore('data', () => {
 
   const newDeck = ref()
 
-  const url = "http://localhost:4001/api/deck/add";
+  const url = `${import.meta.env.VITE_API_URL}/deck/add`;
 
   let optionsFetchDeck = {
       method: "POST",
@@ -60,7 +60,8 @@ export const useDataStore = defineStore('data', () => {
 // -------------------------------------------- Add Cards
 
 const newCard = ref()
-const urlCard = "http://localhost:4001/api/card/add"
+const id = localStorage.getItem('id')
+const urlCard = `${import.meta.env.VITE_API_URL}/card/add/${id}`
 
 let optionsFetchCard = {
   method: "POST",
@@ -112,7 +113,7 @@ async function setAllCards() {
 
 async function deleteCard(id) {
 
-  const urlDelete = `http://localhost:4001/api/cards/${id}`
+  const urlDelete = `${import.meta.env.VITE_API_URL}/cards/${id}`
 
   try {
       const response = await fetch(urlDelete, {method:"DELETE"});

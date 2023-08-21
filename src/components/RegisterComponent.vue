@@ -10,6 +10,12 @@ const userName = ref('');
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
+const errors = ref([])
+
+
+function isPasswordStrong(password){
+  return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
+}
 
 async function handleSubmit(e) {
   e.preventDefault();
@@ -17,11 +23,22 @@ async function handleSubmit(e) {
   // Perform form validations
   if (!userName.value || !email.value || !password.value || !confirmPassword.value) {
     console.log('Please fill out all fields');
+    errors.value = [];
+    errors.value.push('Please fill out all fields')
     return;
   }
 
   if (password.value !== confirmPassword.value) {
     console.log('Passwords do not match');
+    errors.value = [];
+    errors.value.push('Passwords do not match')
+    return;
+  }
+
+  if (!isPasswordStrong(password.value)) {
+    console.log('Password is not strong enough');
+    errors.value = [];
+    errors.value.push('Password is not strong enough')
     return;
   }
 
@@ -47,7 +64,17 @@ async function handleSubmit(e) {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, optionsFetch);
 
     if (!response.ok) {
-      throw new Error('Error al crear usuario, registerComponent');
+      console.log(response.status)
+      if (response.status === 401) {
+        errors.value = []
+        errors.value.push('Email already in use')
+      }
+      if (response.status === 402) {
+        errors.value = []
+        errors.value.push('Name already in use')
+      }
+      
+      throw new Error('Error al loguear, LoginComponent')
     }
 
     const data = await response.json();
@@ -68,12 +95,12 @@ async function handleSubmit(e) {
 
 <template>
 
-<!-- <p v-if="errors.length">
-    <b>Por favor, corrija el(los) siguiente(s) error(es):</b>
+<p v-if="errors.length">
+    <span>Por favor, corrija el siguiente error:</span>
     <ul>
-      <li v-for="error in errors">{{ error }}</li>
+      <li class="textValidation" v-for="(error, index) in errors" :key="index">{{ error }}</li>
     </ul>
-  </p> -->
+  </p>
 
 
   <form @submit="handleSubmit">
@@ -153,6 +180,11 @@ button{
 }
 button:hover{
   background-color: var(--main-color);
+}
+
+.textValidation{
+  color: var(--text-danger);
+  font-weight: bold;
 }
 
 </style>

@@ -9,16 +9,18 @@ import AddDeckComponent from '../components/AddDeckComponent.vue'
 import AddCardComponent from '../components/AddCardComponent.vue'
 import NavbarComponent from '../components/NavbarComponent.vue'
 import DeleteDeckComponent from '../components/DeleteDeckComponent.vue'
+import AlertComponent from '../components/AlertComponent.vue'
 // Pinia
 const cardStore = useDeckStore()
-const { selectedDeck, answeredCards, selectedName, getSelectedName } = storeToRefs(cardStore)
-const { setAllUserDecks, resetCardsInSelectedDeck } = cardStore
+const { selectedDeck, answeredCards, selectedName } = storeToRefs(cardStore)
+const { setAllUserDecks, resetCardsInSelectedDeck, setSelectedDeck } = cardStore
 // ---------------
 
 onMounted(() => {
   // console.log("2")
   //Fetch to get decks from API
   //TODO:Contemplar hacer defineWatcher para cuando se crea un nuevo mazo
+  selectedDeck.value = null
   setAllUserDecks()
 })
 
@@ -61,27 +63,42 @@ function toggleModalDeck() {
 function toggleModalCard() {
   showCards.value = !showCards.value
 }
+
+const alertFlag = ref(false);
+
+function toggleAlert(){
+  alertFlag.value = !alertFlag.value
+}
+
 </script>
 
 <template>
   <NavbarComponent />
 
   <div class="deckBar">
-    <button @click="toggleModalDeck">
-      <i class="fa-solid fa-circle-plus"></i>
-    </button>
+    <div class="flex ">
+      <button @click="toggleModalDeck" class="toggleButton">
+        <i class="fa-solid fa-circle-plus buttonHover"></i>
+      </button>
+      <span class="ms-3 my-auto">Add deck</span>
+    </div>
 
     <SelectComponent class="select" />
 
-    <DeleteDeckComponent />
+    <DeleteDeckComponent :toggleAlert="toggleAlert" />
   </div>
+  
+
+    <AlertComponent v-if="alertFlag" :deckName="selectedName" :toggle-alert="toggleAlert"/>
+
+  
 
   <div v-if="showDeck">
     <AddDeckComponent :closeModal="toggleModalDeck" />
   </div>
 
   <button @click="toggleModalCard" class="addCardButton">
-    <i class="fa-solid fa-circle-plus buttonSize"></i>
+    <i class="fa-solid fa-circle-plus buttonSize buttonHover"></i>
   </button>
 
   <div v-if="showCards">
@@ -104,6 +121,7 @@ function toggleModalCard() {
         />
       </div>
 
+      <!-- Next and back buttons -->
       <div v-if="selectedDeck" class="flex justify-around ">
         <button v-if="start > 0" class="buttonArrow" @click="beforeCards">
           <i class="fa-solid fa-arrow-right fa-2xl fa-rotate-180"></i>
@@ -143,6 +161,10 @@ function toggleModalCard() {
 </template>
 
 <style scoped>
+
+.alert{
+  
+}
 .cardBox {
   display: flex;
   flex-wrap: wrap;
@@ -216,10 +238,34 @@ function toggleModalCard() {
   left: 90%;
   top: 85%;
 }
+.buttonHover:hover{
+  color: var(--sec-color);
+}
+/* .toggleButton:focus{
+  
+  animation: scale-up-center 0.3s ease-in-out;
+ 
+}
+
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+} */
+
+.toggleButton:hover{
+  -webkit-animation:scale-up-center .4s cubic-bezier(.39,.575,.565,1.000) both;
+  animation:scale-up-center .4s cubic-bezier(.39,.575,.565,1.000) both
+}
 
 .buttonSize {
   color: var(--text-primary);
+  
   font-size: 4rem;
+  
 }
 .buttonArrow {
   border-radius: 10px;
@@ -228,7 +274,7 @@ function toggleModalCard() {
   color: var(--text-primary);
 }
 .buttonArrow:hover {
-  background-color: var(--other-color);
+  background-color: var(--sec-color);
 }
 
 /* Estilos para pantallas pequeñas */

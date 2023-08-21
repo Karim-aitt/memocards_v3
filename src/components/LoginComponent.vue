@@ -8,6 +8,8 @@ const { setUserId, setUserName } = userStore
 
 const email = ref()
 const password = ref()
+const wrongEmail = ref(true)
+const wrongPassword = ref(true)
 
 async function handleSubmit(e) {
   e.preventDefault()
@@ -23,9 +25,24 @@ async function handleSubmit(e) {
   try {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, optionsFetch)
     if (!response.ok) {
+      console.log(response.status)
+      if (response.status === 401) {
+        wrongEmail.value = false
+      }
+      if (response.status === 402) {
+        wrongEmail.value = true;
+        wrongPassword.value = false
+      }
+      
       throw new Error('Error al loguear, LoginComponent')
     }
     const data = await response.json()
+    wrongEmail.value = true
+    wrongPassword.value = true
+
+    //remove before values
+    localStorage.removeItem('token')
+    localStorage.removeItem('id')
 
     //id set in storage
     localStorage.setItem('token', data.token)
@@ -54,6 +71,7 @@ async function handleSubmit(e) {
       autocomplete="email"
       required
     />
+    <p v-if="!wrongEmail" class="textValidation" >Email doesn't match</p>
 
     <label for="password">Password:</label>
     <input
@@ -64,6 +82,8 @@ async function handleSubmit(e) {
       autocomplete="current-password"
       required
     />
+
+    <p v-if="!wrongPassword" class="textValidation" >Password doesn't match</p>
 
     <button type="submit" class="button">Login</button>
   </form>
@@ -101,4 +121,10 @@ button {
 button:hover {
   background-color: var(--main-color);
 }
+
+.textValidation{
+  color: var(--text-danger);
+  font-weight: bold;
+}
+
 </style>

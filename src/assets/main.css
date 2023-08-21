@@ -11,6 +11,8 @@
     --text-primary: #e5e5e5;
     --text-secondary: #2c2c2c;
     --text-terciary:rgb(134, 134, 134);
+    --text-danger: rgb(199, 3, 3);
+    --text-success: rgb(34 197 94);
 }
 /* main: 91C8E4 */
 /* sec: 4682A9 */

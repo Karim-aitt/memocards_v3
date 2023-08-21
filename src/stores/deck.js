@@ -81,7 +81,7 @@ export const useDeckStore = defineStore('deck', () => {
 
   async function setDeleteDeck(id) {
 
-    const urlDelete = `http://localhost:4001/api/decks/${id}`
+    const urlDelete = `${import.meta.env.VITE_API_URL}/decks/${id}`
   
     try {
         const response = await fetch(urlDelete, {method:"DELETE"});
@@ -103,7 +103,7 @@ export const useDeckStore = defineStore('deck', () => {
   async function setAllUserDecks() {
     try {
       
-      const response = await fetch(`http://localhost:4001/api/${userId.value}/decks`) // Replace 'http://localhost:3000' with your actual endpoint
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/${userId.value}/decks`)
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
@@ -129,7 +129,8 @@ export const useDeckStore = defineStore('deck', () => {
 
   async function getCardsInDeck(){
     try {
-      const response = await fetch(`http://localhost:4001/api/${selectedName.value}/cards`, {
+      const id = localStorage.getItem('id');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/${selectedName.value}/cards/${id}`, {
       
     })
 
@@ -147,7 +148,9 @@ export const useDeckStore = defineStore('deck', () => {
     }
   }
 
-  
+  function confirmDelete(){
+
+  }
 
 
   return {

@@ -5,15 +5,16 @@ require('dotenv').config();
 const cardSchema = require('../models/card');
 const deckSchema = require('../models/deck');
 
-router.post('/card/add', async (req, res) => {
+router.post('/card/add/:id', async (req, res) => {
     const { deck, text, solution } = req.body;
+    const {id} = req.params
     //aqui obtener id del usuario
 
     const cardData = {
         deck: deck,
         text: text,
         solution: solution,
-        // created_by: created_by
+        created_by: id
     }
 
     try {
@@ -36,11 +37,11 @@ router.get('/cards', (req, res) => {
 })
 
 //get all cards in Deck
-router.get('/:deck/cards', (req, res) => {
-    const {deck} = req.params;
+router.get('/:deck/cards/:id', (req, res) => {
+    const {deck, id} = req.params;
     console.log(deck, "deck get all cards")
   cardSchema
-      .find({deck: deck})
+      .find({deck: deck, created_by: id})
       .then((data) => res.json(data))
       .catch((error) => res.json({message: error}))
 })

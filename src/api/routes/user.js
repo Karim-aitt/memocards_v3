@@ -16,8 +16,11 @@ router.post('/user/register', async (req, res) => {
         // Comprobar si ya existe un usuario con el email introducido
         const userExist = await userSchema.findOne({ email });
         const nameExist = await userSchema.findOne({ name });
-        if (userExist||nameExist) {
-          return res.status(400).json({ message: 'El email ya está registrado' });
+        if (userExist) {
+          return res.status(401).json({ message: 'El email ya está registrado' });
+        }
+        if(nameExist){
+          return res.status(402).json({message: "El nombre ya está registrado"})
         }
         
         //TODO: HACER VALIDACIONES del usuario
@@ -64,7 +67,7 @@ router.post('/user/login', async (req, res) => {
 
       const isMatch = await bcrypt.compare(password, user.password);  
       if (!isMatch) {
-          return res.status(401).json({ message: 'Credenciales incorrectas' });
+          return res.status(402).json({ message: 'Credenciales incorrectas' });
       }
     
       const payload = {

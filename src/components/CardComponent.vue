@@ -124,7 +124,10 @@ input:focus {
 }
 
 .buttonDelete{
-    color: rgb(199, 3, 3);
+    color: var(--text-terciary);
+}
+.buttonDelete:hover{
+  color: var(--text-danger);
 }
 
 .buttonSolution{
@@ -140,13 +143,13 @@ input:focus {
 }
 
 .solutionText{
-  color: rgb(34 197 94);
+  color: var(--text-success);
   font-weight: bold;
   font-size: x-large;
 }
 
 .ok{
-  border: 4px solid rgb(34 197 94);
+  border: 4px solid var(--text-success);
 }
 .wrong{
   border: 4px solid rgb(173, 69, 69);
