@@ -14,7 +14,7 @@ const app = express();
 // Agregar las cabeceras CORS
 
 const corsOptions ={
-    origin:'https://memocards-woad.vercel.app/api', 
+    origin:'https://memocards-woad.vercel.app', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
