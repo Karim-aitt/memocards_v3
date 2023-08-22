@@ -13,15 +13,15 @@ const authUser = require('./routes/authUser.js');
 const app = express();
 // Agregar las cabeceras CORS
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://memocards-gdr5yu7xs-karim-aitt.vercel.app/'); // Reemplaza con la URL de tu app en Vercel
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-  });
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'https://memocards-gdr5yu7xs-karim-aitt.vercel.app/'); // Reemplaza con la URL de tu app en Vercel
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     next();
+//   });
 
 const corsOptions ={
-    origin:'https://memocards-gdr5yu7xs-karim-aitt.vercel.app/', 
+    origin:'https://memocards-woad.vercel.app/', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
