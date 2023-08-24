@@ -14,7 +14,7 @@ const app = express();
 // Agregar las cabeceras CORS
 
 const corsOptions ={
-    origin:'https://real-bear-sunbonnet.cyclic.cloud', 
+    origin:'https://memocards-v3.netlify.app/', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
