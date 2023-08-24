@@ -14,7 +14,7 @@ const app = express();
 // Agregar las cabeceras CORS
 
 const corsOptions ={
-    origin:'https://memocards.onrender.com', 
+    origin:'https://real-bear-sunbonnet.cyclic.cloud', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
