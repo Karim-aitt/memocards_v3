@@ -24,7 +24,7 @@ async function handleSubmit(e) {
   }
 
   try {
-    const response = await fetch(`https://real-bear-sunbonnet.cyclic.cloud/api/user/login`, optionsFetch)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, optionsFetch)
     if (!response.ok) {
       console.log(response.status)
       if (response.status === 401) {
