@@ -27,3 +27,5 @@ coverage
 *.sw?
 
 .env
+# Local Netlify folder
+.netlify

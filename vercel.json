@@ -1,5 +1,0 @@
-{
-    "routes": [
-        { "src": "/api/user/login", "dest": "src/api/routes/user.js" }
-    ]
-  }

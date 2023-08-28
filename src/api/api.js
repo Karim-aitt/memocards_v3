@@ -14,10 +14,11 @@ const app = express();
 // Agregar las cabeceras CORS
 
 const corsOptions ={
-    origin:'https://memocards-v3.netlify.app/', 
+    origin:`"*"`, 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
+
 app.use(cors(corsOptions));
 
 const port = process.env.VITE_PORT;
